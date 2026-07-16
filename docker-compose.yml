@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  sous:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./recipes.db:/app/recipes.db
+      - ./uploads:/app/uploads
+      # API keys entered on the /preferences page (llm_credentials.py) -
+      # gitignored (never committed - see the comment in .gitignore),
+      # bind-mounted so they survive a container rebuild/recreate the
+      # same way recipes.db/uploads do. IMPORTANT: run
+      # `touch llm_credentials.db` on the host BEFORE the first
+      # `docker compose up`. If this path doesn't exist yet, Docker
+      # silently bind-mounts a *directory* here instead of a file (no
+      # error at startup), which breaks every /preferences request the
+      # moment anything tries to open it as SQLite. Since it's
+      # gitignored, a fresh clone of this repo won't have it - this is a
+      # real one-time setup step, not optional.
+      - ./llm_credentials.db:/app/llm_credentials.db
+    environment:
+      - PYTHONPATH=/app
+      # Passed through from the host's shell environment (see
+      # update_ollama_host in ~/.zshrc, which resolves the LAN Ollama
+      # box's address dynamically since its IP isn't stable) rather than
+      # hardcoded - llm_client.py reads this at runtime for the Ollama
+      # provider specifically.
+      - OLLAMA_HOST=${OLLAMA_HOST}
+      # Optional fallback for which LLM provider/model to use - only
+      # takes effect if nothing's been saved on the /preferences page
+      # (see llm_client.py). Uncomment and set if you want a non-Ollama
+      # default without visiting Preferences first.
+      # - SOUS_LLM_PROVIDER=anthropic
+      # - SOUS_LLM_MODEL=claude-opus-4-8
+      # API keys for non-Ollama providers: normally set on the
+      # /preferences page instead (no .env/restart needed) - these env
+      # vars are only a fallback for anyone who prefers file-based
+      # config, and are only used if nothing's been saved in the UI.
+      # - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      # - GEMINI_API_KEY=${GEMINI_API_KEY}
+    restart: unless-stopped

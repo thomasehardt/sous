@@ -1,0 +1,26 @@
+# Sous Recipe Manager - Requirements
+
+# Most of the app (routing, DB, imports, meal planning, flavor profiles)
+# uses only the Python standard library. Two real external dependencies:
+#
+# litellm, backing llm_client.py's provider-agnostic interface (swap
+# Ollama/Anthropic/Gemini/etc. via a model string, no code changes) - used
+# by every LLM-backed feature (flavor tagging, pantry shelf-life, craving's
+# query planner, recipe adaptation/invention, the easter-egg riff) as of
+# 2026-07-16's Phase 17 (see PLAN.md/PROGRESS.md). No longer lazily
+# imported/easter-egg-only - required for the app to run, same as
+# ingredient-parser-nlp below.
+litellm>=1.82.0
+
+# ingredient-parser-nlp, used by recipe_scaling.parse_ingredient() (core
+# functionality - runs on every recipe save via RecipeDatabase) to parse
+# free-text ingredient lines into structured quantity/unit/name data.
+# Replaced a hand-rolled regex heuristic on 2026-07-12 after verifying
+# 98.5%+ exact agreement on real corpus data, with the disagreements being
+# real heuristic bugs it fixes (compound quantities, size-vs-quantity
+# confusion). Pulls in numpy/nltk/pint - the project's former "no numpy"
+# rule was lifted for this (see PROGRESS.md). Required for the app to run.
+ingredient-parser-nlp>=2.7.0
+
+# For development/testing purposes only:
+# pytest>=6.0.0

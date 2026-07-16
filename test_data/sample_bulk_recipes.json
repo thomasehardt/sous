@@ -1,0 +1,39 @@
+[
+  {
+    "@type": "Recipe",
+    "name": "Fixture Lasagna Bulk",
+    "description": "A hearty layered pasta bake.",
+    "recipeIngredient": [
+      "1 lb ground beef",
+      "2 cups tomato sauce",
+      "12 lasagna noodles",
+      "2 cups mozzarella cheese",
+      "1 cup ricotta cheese"
+    ],
+    "recipeInstructions": [
+      {"@type": "HowToStep", "text": "Brown the beef."},
+      {"@type": "HowToStep", "name": "Layer noodles and sauce."},
+      {"@type": "HowToStep", "text": "Bake at 375F for 45 minutes."}
+    ],
+    "recipeYield": "8 servings",
+    "recipeCuisine": ["Italian", "American"],
+    "recipeCategory": "Dinner",
+    "difficulty": "Medium"
+  },
+  {
+    "@type": "Recipe",
+    "name": "Fixture Pancakes Bulk",
+    "description": "Fluffy breakfast pancakes.",
+    "recipeIngredient": [
+      "2 cups flour",
+      "2 eggs",
+      "1.5 cups milk",
+      "2 tbsp sugar"
+    ],
+    "recipeInstructions": "Mix ingredients. Cook on griddle until golden. Serve warm.",
+    "recipeYield": "4",
+    "recipeCuisine": "American",
+    "recipeCategory": ["Breakfast", "Brunch"],
+    "difficulty": "Easy"
+  }
+]

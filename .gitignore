@@ -1,0 +1,16 @@
+__pycache__/
+*.pyc
+.venv/
+uploads/
+# LLM provider API keys entered on /preferences (llm_credentials.py) -
+# never commit this, it can contain real secrets. See docker-compose.yml
+# for a required one-time `touch` step before running under Docker.
+llm_credentials.db
+# The 54,722-recipe corpus (~500MB) - stripped from this repo's git
+# history 2026-07-16 so it could be published to GitHub (GitHub
+# hard-rejects any file over 100MB). Treated as local/instance data now,
+# same as uploads/ and llm_credentials.db - not versioned. See
+# PROGRESS.md for how to obtain/rebuild it if you're setting this up
+# fresh.
+recipes.db
+.pytest_cache/
