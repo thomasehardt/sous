@@ -21,45 +21,31 @@ flavor pairing, recipe discovery, meal scheduling, and generation, see
 
 ## Quickstart
 
+### Docker (Recommended)
+
+Run this single command to initialize the credentials file and spin up the container:
+
+```bash
+touch llm_credentials.db && docker compose up -d --build
+```
+
+Then open `http://localhost:8000`. `docker-compose.yml` mounts your local `recipes.db` into the container, so data persists on the host and survives container rebuilds. 
+
+*Note: `touch llm_credentials.db` is required on the first run. This file holds any LLM provider API keys you enter on `/preferences`. If it doesn't exist, Docker will mistakenly bind-mount a directory instead of a file.*
+
 ### Native (no Docker)
 
-Requires only the Python standard library - no `pip install` needed for
-core functionality.
+Requires only the Python standard library - no `pip install` needed for core functionality.
 
 ```bash
 python3 server.py
 ```
+Then open `http://localhost:8000`. If port 8000 is already in use, override it with `PORT=8080 python3 server.py`.
 
-Then open `http://localhost:8000`. If port 8000 is already in use on your
-machine, override it with the `PORT` env var:
+## Screenshots
+![Home Page](https://via.placeholder.com/800x450?text=Home+Page+UI) 
+*UI Placeholder - Add your own screenshots to `docs/`*
 
-```bash
-PORT=8080 python3 server.py
-```
-
-### Docker
-
-```bash
-touch llm_credentials.db  # required once - see why below
-docker compose up --build
-```
-
-Then open `http://localhost:8000`. `docker-compose.yml` mounts your local
-`recipes.db` into the container, so data persists on the host and survives
-container rebuilds.
-
-The first run needs a `recipes.db` to already exist (even an empty one is
-fine - `python3 server.py` or `python3 -c "from recipe_model import
-RecipeDatabase; RecipeDatabase()"` will create one with an empty `recipes`
-table and the right schema).
-
-The `touch llm_credentials.db` step is required, not optional: this file
-(gitignored, holds any LLM provider API keys you enter on `/preferences`)
-doesn't exist in a fresh clone, and Docker silently bind-mounts a
-*directory* instead of a file at that path if it's missing when the
-container first starts - which breaks the Preferences page. `recipes.db`
-doesn't have this problem because you already have to create it first;
-`uploads/` doesn't have it because it's meant to be a directory.
 
 ### Running tests
 
